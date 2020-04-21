@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+set -eu
+
+if [ "$#" -lt 1 ]
+then
+  >&2 echo "usage: git co-author initials ...
+
+examples:
+    git co-author aa        # solo
+    git co-author aa bb     # pair
+    git co-author aa bb cc  # mob"
+  exit 1
+fi
+
+if ! git config --global commit.template &> /dev/null
+then
+  >&2 echo "error: git commit template is not configured
+
+example:
+    git config --global commit.template '~/.git-template'"
+  exit 1
+fi
+
+for initials in "$@"
+do
+    if ! git config --global "co-authors.$initials" &> /dev/null
+    then
+      >&2 echo "error: co-author '$initials' is not configured
+
+example:
+    git config --global co-authors.aa 'Ann Author <ann.author@example.com>'"
+      exit 1
+    fi
+done
+
+template_path=$(git config --global commit.template)
+template_path="${template_path/#\~/$HOME}"  # Replace '~' with $HOME
+
+echo "
+" > "$template_path"
+
+for initials in "$@"
+do
+    author=$(git config --global "co-authors.$initials")
+    echo "Co-authored-by: $author" >> "$template_path"
+done
