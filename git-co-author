@@ -11,7 +11,7 @@ Usage:
   exit 1
 fi
 
-if ! git config --global commit.template &> /dev/null
+if ! git config commit.template &> /dev/null
 then
   >&2 echo "git commit template is not configured
 
@@ -22,7 +22,7 @@ fi
 
 for initials in "$@"
 do
-    if ! git config --global "co-authors.$initials" &> /dev/null
+    if ! git config "co-authors.$initials" &> /dev/null
     then
       >&2 echo "initials '$initials' are not configured
 
@@ -32,7 +32,7 @@ Example:
     fi
 done
 
-template_path=$(git config --global commit.template)
+template_path=$(git config commit.template)
 template_path="${template_path/#\~/$HOME}"  # Replace '~' with $HOME
 
 echo "
@@ -40,6 +40,6 @@ echo "
 
 for initials in "$@"
 do
-    author=$(git config --global "co-authors.$initials")
+    author=$(git config "co-authors.$initials")
     echo "Co-authored-by: $author" >> "$template_path"
 done
