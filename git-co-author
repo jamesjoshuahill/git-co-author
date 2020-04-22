@@ -40,6 +40,12 @@ echo "
 
 for initials in "$@"
 do
+    prefix="Co-authored-by"
+    if [ "$#" -eq 1 ]
+    then
+      prefix="Authored-by"
+    fi
+
     author=$(git config "co-authors.$initials")
-    echo "Co-authored-by: $author" | tee -a "$template_path"
+    echo "$prefix: $author" | tee -a "$template_path"
 done
