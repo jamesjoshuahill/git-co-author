@@ -4,20 +4,18 @@ set -eu
 
 if [ "$#" -lt 1 ]
 then
-  >&2 echo "usage: git co-author initials ...
+  >&2 echo "Attribute git commits to multiple authors.
 
-examples:
-    git co-author aa        # solo
-    git co-author aa bb     # pair
-    git co-author aa bb cc  # mob"
+Usage:
+  git co-author initials ..."
   exit 1
 fi
 
 if ! git config --global commit.template &> /dev/null
 then
-  >&2 echo "error: git commit template is not configured
+  >&2 echo "git commit template is not configured
 
-example:
+Example:
     git config --global commit.template '~/.git-template'"
   exit 1
 fi
@@ -26,10 +24,10 @@ for initials in "$@"
 do
     if ! git config --global "co-authors.$initials" &> /dev/null
     then
-      >&2 echo "error: co-author '$initials' is not configured
+      >&2 echo "initials '$initials' are not configured
 
-example:
-    git config --global co-authors.aa 'Ann Author <ann.author@example.com>'"
+Example:
+    git config --global co-authors.$initials 'NAME <USERNAME@users.noreply.github.com>'"
       exit 1
     fi
 done
