@@ -41,5 +41,5 @@ echo "
 for initials in "$@"
 do
     author=$(git config "co-authors.$initials")
-    echo "Co-authored-by: $author" >> "$template_path"
+    echo "Co-authored-by: $author" | tee -a "$template_path"
 done
