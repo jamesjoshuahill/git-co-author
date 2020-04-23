@@ -27,7 +27,7 @@ do
       >&2 echo "initials '$initials' are not configured
 
 Example:
-    git config --global co-authors.aa 'Ann Author <ann.author@users.noreply.github.com>'"
+    git config --global co-authors.aa 'Ann Author <ann.author@example.com>'"
       exit 1
     fi
 done

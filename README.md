@@ -33,10 +33,11 @@ touch '~/.git-template'
 
 ## Configure co-authors
 
-Configure a co-author using their initials. For example 'aa' for Ann Author:
+Configure a co-author using their initials. For example 'aa' and 'bb':
 
 ```bash
-git config --global co-authors.aa 'Ann Author <ann.author@users.noreply.github.com>'
+git config --global co-authors.aa 'Ann Author <ann.author@example.com>'
+git config --global co-authors.bb 'Bob Book <bob.book@example.com>'
 ```
 
 You must use the email address associated with your GitHub account. For more information, see [Setting your commit email address](https://help.github.com/en/github/setting-up-and-managing-your-github-user-account/setting-your-commit-email-address#setting-your-commit-email-address-on-github).
@@ -49,11 +50,11 @@ Update co-authors in the commit template:
 
 ```bash
 $ git co-author aa     # pair
-Co-authored-by: Ann Author <ann.author@users.noreply.github.com>
+Co-authored-by: Ann Author <ann.author@example.com>
 
 $ git co-author aa bb  # mob
-Co-authored-by: Ann Author <ann.author@users.noreply.github.com>
-Co-authored-by: Alice Author <alice.author@users.noreply.github.com>
+Co-authored-by: Ann Author <ann.author@example.com>
+Co-authored-by: Bob Book <bob.book@example.com>
 ```
 
 Remove all co-authors from the commit template:
