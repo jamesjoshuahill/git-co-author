@@ -4,7 +4,7 @@ set -eu
 
 if [ "$#" -lt 1 ]
 then
-  >&2 echo "Attribute git commits to multiple authors.
+  >&2 echo "Easily add 'Co-authored-by' trailers to the commit template.
 
 Usage:
   git co-author initials ..."
@@ -32,14 +32,18 @@ Example:
     fi
 done
 
+token="Co-authored-by"
 template_path=$(git config commit.template)
 template_path="${template_path/#\~/$HOME}"  # Replace '~' with $HOME
+temp_file=$(mktemp)
 
-echo "
-" > "$template_path"
+grep -v "$token" "$template_path" > "$temp_file"
+mv "$temp_file" "$template_path"
 
 for initials in "$@"
 do
-    author=$(git config "co-authors.$initials")
-    echo "Co-authored-by: $author" | tee -a "$template_path"
+    value=$(git config "co-authors.$initials")
+    git interpret-trailers --trailer "$token: $value" --in-place "$template_path"
 done
+
+git interpret-trailers --parse "$template_path"
