@@ -25,6 +25,12 @@ Configure the commit template path:
 git config --global commit.template '~/.git-template'
 ```
 
+Ensure there is a commit template file:
+
+```bash
+touch '~/.git-template'
+```
+
 ## Configure co-authors
 
 Configure a co-author using their initials. For example 'aa' for Ann Author:

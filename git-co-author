@@ -35,10 +35,9 @@ done
 token="Co-authored-by"
 template_path=$(git config commit.template)
 template_path="${template_path/#\~/$HOME}"  # Replace '~' with $HOME
-temp_file=$(mktemp)
 
-grep -v "$token" "$template_path" > "$temp_file"
-mv "$temp_file" "$template_path"
+touch "$template_path"
+sed -i '' "/$token/d" "$template_path"
 
 for initials in "$@"
 do
