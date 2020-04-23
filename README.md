@@ -74,5 +74,5 @@ git commit
 Important: the commit template is not used when the `-m` flag is used:
 
 ```bash
-git commit -m "This message will not include the commit template"
+git commit -m "Writing the commit message here will not use the commit template"
 ```
