@@ -2,8 +2,13 @@
 
 set -eu
 
+abort() {
+  >&2 echo "$1"
+  exit 1
+}
+
 usage() {
-  >&2 echo "Easily add 'Co-authored-by' trailers to the commit template.
+  abort "Easily add 'Co-authored-by' trailers to the commit template.
 
 Usage:
   git co-author initials ...
@@ -11,21 +16,19 @@ Usage:
 Options:
   --help    Show help
   --clear   Remove all 'Co-authored-by' trailers"
-  exit 1
 }
 
-if [ "$#" -lt 1 ]
+if [ "$#" -eq 0 ]
 then
   usage
 fi
 
 if ! git config commit.template &> /dev/null
 then
-  >&2 echo "git commit template is not configured
+  abort "commit template is not configured
 
 Example:
-    git config --global commit.template '~/.git-template'"
-  exit 1
+  git config --global commit.template '~/.git-template'"
 fi
 
 template_path=$(git config commit.template)
@@ -69,11 +72,10 @@ for initials in "$@"
 do
     if ! git config "co-authors.$initials" &> /dev/null
     then
-      >&2 echo "initials '$initials' are not configured
+      abort "co-author '$initials' is not configured
 
 Example:
-    git config --global co-authors.aa 'Ann Author <ann.author@example.com>'"
-      exit 1
+  git config --global co-authors.aa 'Ann Author <ann.author@example.com>'"
     fi
 done
 
