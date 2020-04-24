@@ -28,7 +28,6 @@ Example:
   exit 1
 fi
 
-token="Co-authored-by"
 template_path=$(git config commit.template)
 template_path="${template_path/#\~/$HOME}"  # Replace '~' with $HOME
 touch "$template_path"
@@ -46,12 +45,22 @@ do
   fi
 done
 
+token="Co-authored-by"
+
+clear_trailers() {
+  sed -i '' "/$token/d" "$template_path"
+}
+
+print_trailers() {
+  git interpret-trailers --parse "$template_path"
+}
+
 for arg in "$@"
 do
   if [[ $arg = "--clear" ]]
   then
-    sed -i '' "/$token/d" "$template_path"
-    git interpret-trailers --parse "$template_path"
+    clear_trailers
+    print_trailers
     exit 0
   fi
 done
@@ -68,7 +77,7 @@ Example:
     fi
 done
 
-sed -i '' "/$token/d" "$template_path"
+clear_trailers
 
 for initials in "$@"
 do
@@ -76,4 +85,4 @@ do
     git interpret-trailers --trailer "$token: $value" --in-place "$template_path"
 done
 
-git interpret-trailers --parse "$template_path"
+print_trailers
