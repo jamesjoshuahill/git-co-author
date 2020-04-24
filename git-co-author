@@ -23,18 +23,6 @@ then
   usage
 fi
 
-if ! git config commit.template &> /dev/null
-then
-  abort "commit template is not configured
-
-Example:
-  git config --global commit.template '~/.git-template'"
-fi
-
-template_path=$(git config commit.template)
-template_path="${template_path/#\~/$HOME}"  # Replace '~' with $HOME
-touch "$template_path"
-
 for arg in "$@"
 do
   if [[ $arg = "--help" ]]
@@ -47,6 +35,18 @@ do
     usage
   fi
 done
+
+if ! git config commit.template &> /dev/null
+then
+  abort "commit template is not configured
+
+Example:
+  git config --global commit.template '~/.git-template'"
+fi
+
+template_path=$(git config commit.template)
+template_path="${template_path/#\~/$HOME}"  # Replace '~' with $HOME
+touch "$template_path"
 
 token="Co-authored-by"
 
