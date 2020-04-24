@@ -15,7 +15,6 @@ Inspired by [`git-author`](https://github.com/pivotal/git-author).
 Install the commands:
 
 ```bash
-install git-solo /usr/local/bin
 install git-co-author /usr/local/bin/
 ```
 
@@ -60,7 +59,7 @@ Co-authored-by: Bob Book <bob.book@example.com>
 Remove all co-authors from the commit template:
 
 ```bash
-$ git solo
+$ git co-author --clear
 ```
 
 ## Commit

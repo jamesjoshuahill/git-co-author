@@ -7,7 +7,8 @@ then
   >&2 echo "Easily add 'Co-authored-by' trailers to the commit template.
 
 Usage:
-  git co-author initials ..."
+  git co-author initials ...
+  git co-author --clear"
   exit 1
 fi
 
@@ -19,6 +20,21 @@ Example:
     git config --global commit.template '~/.git-template'"
   exit 1
 fi
+
+token="Co-authored-by"
+template_path=$(git config commit.template)
+template_path="${template_path/#\~/$HOME}"  # Replace '~' with $HOME
+touch "$template_path"
+
+for arg in "$@"
+do
+  if [[ $arg = "--clear" ]]
+  then
+    sed -i '' "/$token/d" "$template_path"
+    git interpret-trailers --parse "$template_path"
+    exit 0
+  fi
+done
 
 for initials in "$@"
 do
@@ -32,11 +48,6 @@ Example:
     fi
 done
 
-token="Co-authored-by"
-template_path=$(git config commit.template)
-template_path="${template_path/#\~/$HOME}"  # Replace '~' with $HOME
-
-touch "$template_path"
 sed -i '' "/$token/d" "$template_path"
 
 for initials in "$@"
