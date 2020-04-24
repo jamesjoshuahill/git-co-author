@@ -2,17 +2,19 @@
 
 Easily add `Co-authored-by` trailers to the commit template.
 
+```bash
+git co-author initials...
+```
+
 This command enables pairs and mobs of programmers to attribute commits to all the authors. For convenience, co-authors are added using their initials.
 
 GitHub has first-class support for `Co-authored-by` trailers and recognises the author and co-authors of commits. For more information on co-authoring commits see:
 - [Git Together By Co-Authoring Commits](https://github.community/t5/Support-Protips/Git-Together-By-Co-Authoring-Commits/ba-p/27480)
 - [Creating a commit with multiple authors](https://help.github.com/en/github/committing-changes-to-your-project/creating-a-commit-with-multiple-authors)
 
-Inspired by [`git-author`](https://github.com/pivotal/git-author).
-
 ## Install
 
-Install the commands:
+Install the command:
 
 ```bash
 install git-co-author /usr/local/bin/
@@ -43,7 +45,7 @@ You must use the email address associated with your GitHub account, see [Setting
 
 ## Usage
 
-Pair with two authors:
+Pair:
 
 ```bash
 $ git co-author aa
@@ -51,7 +53,7 @@ Co-authored-by: Ann Author <ann.author@example.com>
 $ git commit
 ```
 
-Mob with three or more authors:
+Mob:
 
 ```bash
 $ git co-author aa bb
@@ -67,10 +69,12 @@ $ git co-author --clear
 $ git commit
 ```
 
-If the `git commit -m` flag is set the commit template is not used, so `Co-authored-by` trailers may be missing from the commit.
+:warning: If the commit message is given using `git commit -m "Message"` the commit template is not used, so `Co-authored-by` trailers may be missing from the commit.
 
 ## Notes
 
-- `git-co-author` does not modify git config.
-- `git-co-author` will use local git repo config, if present.
-- `git co-author` only changes `Co-authored-by` trailers in the commit template. The rest of the file is not modified.
+- Assumes the user has configured `user.name` and `user.email` so that they are attributed as an author.
+- Does not modify Git config.
+- Config in the current Git repo takes precedence over global Git config.
+- Only the `Co-authored-by` trailers in the commit template file are modified or removed. The rest of the commit template is unaffected.
+- Inspired by [`git-author`](https://github.com/pivotal/git-author).
