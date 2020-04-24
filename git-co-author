@@ -2,14 +2,21 @@
 
 set -eu
 
-if [ "$#" -lt 1 ]
-then
+usage() {
   >&2 echo "Easily add 'Co-authored-by' trailers to the commit template.
 
 Usage:
   git co-author initials ...
-  git co-author --clear"
+
+Options:
+  --help    Show help
+  --clear   Remove all 'Co-authored-by' trailers"
   exit 1
+}
+
+if [ "$#" -lt 1 ]
+then
+  usage
 fi
 
 if ! git config commit.template &> /dev/null
@@ -25,6 +32,19 @@ token="Co-authored-by"
 template_path=$(git config commit.template)
 template_path="${template_path/#\~/$HOME}"  # Replace '~' with $HOME
 touch "$template_path"
+
+for arg in "$@"
+do
+  if [[ $arg = "--help" ]]
+  then
+    usage
+  fi
+
+  if [[ $arg = "-h" ]]
+  then
+    usage
+  fi
+done
 
 for arg in "$@"
 do
