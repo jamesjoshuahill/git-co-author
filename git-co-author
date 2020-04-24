@@ -1,90 +1,109 @@
 #!/usr/bin/env bash
 
-set -eu
+set -euo pipefail
+
+TRAILER_TOKEN="Co-authored-by"
+USAGE="Easily add 'Co-authored-by' trailers to the commit template.
+
+Usage:
+  git co-author initials...
+
+Options:
+  --help    Show help
+  --clear   Remove all 'Co-authored-by' trailers"
+
+main() {
+  help_option "$@"
+  clear_option "$@"
+  update_trailers "$@"
+}
+
+help_option() {
+  if [ "$#" -eq 0 ]
+  then
+    abort "$USAGE"
+  fi
+
+  for arg in "$@"
+  do
+    if [[ $arg = "--help" ]] || [[ $arg = "-h" ]]
+    then
+      abort "$USAGE"
+    fi
+  done
+}
+
+clear_option() {
+  for arg in "$@"
+  do
+    if [[ $arg = "--clear" ]]
+    then
+      ensure_template_file
+      clear_trailers
+      print_trailers
+      exit 0
+    fi
+  done
+}
+
+update_trailers() {
+  ensure_template_file
+  must_have_initials "$@"
+  clear_trailers
+  add_trailers "$@"
+  print_trailers
+}
 
 abort() {
   >&2 echo "$1"
   exit 1
 }
 
-usage() {
-  abort "Easily add 'Co-authored-by' trailers to the commit template.
-
-Usage:
-  git co-author initials ...
-
-Options:
-  --help    Show help
-  --clear   Remove all 'Co-authored-by' trailers"
-}
-
-if [ "$#" -eq 0 ]
-then
-  usage
-fi
-
-for arg in "$@"
-do
-  if [[ $arg = "--help" ]]
-  then
-    usage
-  fi
-
-  if [[ $arg = "-h" ]]
-  then
-    usage
-  fi
-done
-
-if ! git config commit.template &> /dev/null
-then
-  abort "commit template is not configured
+ensure_template_file() {
+  must_have_config "commit.template" "commit template is not configured
 
 Example:
   git config --global commit.template '~/.git-template'"
-fi
 
-template_path=$(git config commit.template)
-template_path="${template_path/#\~/$HOME}"  # Replace '~' with $HOME
-touch "$template_path"
+  template_file=$(git config commit.template)
+  template_file="${template_file/#\~/$HOME}"  # Replace '~' with $HOME
 
-token="Co-authored-by"
-
-clear_trailers() {
-  sed -i '' "/$token/d" "$template_path"
+  touch "$template_file"
 }
 
-print_trailers() {
-  git interpret-trailers --parse "$template_path"
-}
-
-for arg in "$@"
-do
-  if [[ $arg = "--clear" ]]
+must_have_config() {
+  local key=$1
+  local error=$2
+  if ! git config "$key" &> /dev/null
   then
-    clear_trailers
-    print_trailers
-    exit 0
+    abort "$error"
   fi
-done
+}
 
-for initials in "$@"
-do
-    if ! git config "co-authors.$initials" &> /dev/null
-    then
-      abort "co-author '$initials' is not configured
+must_have_initials() {
+  for initials in "$@"
+  do
+      must_have_config "co-authors.$initials" "co-author '$initials' is not configured
 
 Example:
   git config --global co-authors.aa 'Ann Author <ann.author@example.com>'"
-    fi
-done
+  done
+}
 
-clear_trailers
-
-for initials in "$@"
-do
+add_trailers() {
+  for initials in "$@"
+  do
     value=$(git config "co-authors.$initials")
-    git interpret-trailers --trailer "$token: $value" --in-place "$template_path"
-done
+    git interpret-trailers --trailer "$TRAILER_TOKEN: $value" --in-place "$template_file"
+  done
+}
 
-print_trailers
+clear_trailers() {
+  sed -i '' "/$TRAILER_TOKEN/d" "$template_file"
+}
+
+print_trailers() {
+  git interpret-trailers --parse "$template_file"
+}
+
+main "$@"
