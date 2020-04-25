@@ -19,7 +19,7 @@ main() {
 }
 
 show_trailers() {
-  if [ "$#" -eq 0 ]
+  if [[ $# -eq 0 ]]
   then
     ensure_template_file
     print_trailers
@@ -115,7 +115,7 @@ clear_trailers() {
 }
 
 print_trailers() {
-  git interpret-trailers --parse "$template_file" | sed -n "/$TRAILER_TOKEN/p"
+  sed -n "/$TRAILER_TOKEN/p" "$template_file"
 }
 
 main "$@"
