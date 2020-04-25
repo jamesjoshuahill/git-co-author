@@ -44,7 +44,6 @@ clear_option() {
     then
       ensure_template_file
       clear_trailers
-      print_trailers
       exit 0
     fi
   done
