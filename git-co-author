@@ -55,6 +55,7 @@ update_trailers() {
   clear_trailers
   add_trailers "$@"
   print_trailers
+  exit 0
 }
 
 abort() {
