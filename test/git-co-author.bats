@@ -27,9 +27,10 @@ teardown() {
   [ "$output" = "" ]
 }
 
-@test "no arguments prints trailers when there are co-authors" {
+@test "no arguments prints co-author trailers when there are co-authors" {
   echo "
 
+Some-token: some value
 Co-authored-by: Ann Author <ann.author@example.com>
 Co-authored-by: Bob Book <bob.book@example.com>" > "$template_file"
 
@@ -74,8 +75,7 @@ Another-token: another value" > "$template_file"
 
   run git-co-author --clear
   [ $status -eq 0 ]
-  [ "$output" = "Some-token: some value
-Another-token: another value" ]
+  [ "$output" = "" ]
   run grep "Co-authored-by" "$template_file"
   [ $status -eq 1 ]
   run cat "$template_file"
@@ -126,9 +126,7 @@ Another-token: another value" > "$template_file"
   run git-co-author bb
   [ $status -eq 0 ]
   echo "$output"
-  [ "$output" = "Some-token: some value
-Another-token: another value
-Co-authored-by: Bob Book <bob.book@example.com>" ]
+  [ "$output" = "Co-authored-by: Bob Book <bob.book@example.com>" ]
   run cat "$template_file"
   [ $status -eq 0 ]
   [ "$output" = "Some text
