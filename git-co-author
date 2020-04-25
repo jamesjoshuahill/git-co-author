@@ -6,24 +6,28 @@ TRAILER_TOKEN="Co-authored-by"
 USAGE="Easily add 'Co-authored-by' trailers to the commit template.
 
 Usage:
-  git co-author initials...
-
-Options:
-  --help    Show help
-  --clear   Remove all 'Co-authored-by' trailers"
+  git co-author                 Show co-author trailers
+  git co-author initials...     Update co-author trailers
+  git co-author --clear         Remove all co-author trailers
+  git co-author --help          Show help"
 
 main() {
+  show_trailers "$@"
   help_option "$@"
   clear_option "$@"
   update_trailers "$@"
 }
 
-help_option() {
+show_trailers() {
   if [ "$#" -eq 0 ]
   then
-    abort "$USAGE"
+    ensure_template_file
+    print_trailers
+    exit 0
   fi
+}
 
+help_option() {
   for arg in "$@"
   do
     if [[ $arg = "--help" ]] || [[ $arg = "-h" ]]

@@ -21,10 +21,22 @@ teardown() {
   rm -rf "$test_dir"
 }
 
-@test "no arguments prints usage" {
+@test "no arguments prints nothing when there are no co-authors" {
   run git-co-author
-  [ $status -eq 1 ]
-  [ "${lines[0]}" = "Easily add 'Co-authored-by' trailers to the commit template." ]
+  [ $status -eq 0 ]
+  [ "$output" = "" ]
+}
+
+@test "no arguments prints trailers when there are co-authors" {
+  echo "
+
+Co-authored-by: Ann Author <ann.author@example.com>
+Co-authored-by: Bob Book <bob.book@example.com>" > "$template_file"
+
+  run git-co-author
+  [ $status -eq 0 ]
+  [ "$output" = "Co-authored-by: Ann Author <ann.author@example.com>
+Co-authored-by: Bob Book <bob.book@example.com>" ]
 }
 
 @test "--help option prints usage" {
@@ -74,6 +86,14 @@ Some-token: some value
 Another-token: another value" ]
 }
 
+@test "--clear option prints error when commit template is blank" {
+  git config --local commit.template ""
+
+  run git-co-author --clear
+  [ $status -eq 1 ]
+  [ "${lines[0]}" = "commit template is not configured" ]
+}
+
 @test "adds a co-author" {
   run git-co-author aa
   [ $status -eq 0 ]
@@ -118,7 +138,7 @@ Another-token: another value
 Co-authored-by: Bob Book <bob.book@example.com>" ]
 }
 
-@test "displays error when adding an unknown co-author" {
+@test "prints error when adding an unknown co-author" {
   run git-co-author ee
   [ $status -eq 1 ]
   [ "${lines[0]}" = "co-author 'ee' is not configured" ]
@@ -138,15 +158,7 @@ Co-authored-by: Ann Author <ann.author@example.com>" > "$template_file"
 Co-authored-by: Ann Author <ann.author@example.com>" ]
 }
 
-@test "--clear option displays error when commit template is blank" {
-  git config --local commit.template ""
-
-  run git-co-author --clear
-  [ $status -eq 1 ]
-  [ "${lines[0]}" = "commit template is not configured" ]
-}
-
-@test "add co-author displays error when commit template is blank" {
+@test "add co-author prints error when commit template is blank" {
   git config --local commit.template ""
 
   run git-co-author aa
