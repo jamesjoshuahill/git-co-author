@@ -75,6 +75,22 @@ $ git commit
 
 If the commit message is given using `git commit -m "Message"` the commit template is not used, so `Co-authored-by` trailers may be missing from the commit.
 
+## Test
+
+The command is tested using the [Bats](https://github.com/sstephenson/bats) testing framework for Bash.
+
+Install Bats:
+
+```bash
+brew install bats
+```
+
+Run tests:
+
+```bash
+./test/git-co-author.bats
+```
+
 ## Notes
 
 - The command does not modify Git config.

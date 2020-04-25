@@ -78,6 +78,11 @@ must_have_config() {
   then
     abort "$error"
   fi
+
+  if [[ -z $(git config "$key") ]]
+  then
+    abort "$error"
+  fi
 }
 
 must_have_initials() {
