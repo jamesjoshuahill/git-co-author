@@ -99,7 +99,10 @@ add_trailers() {
 }
 
 clear_trailers() {
-  sed -i '' "/$TRAILER_TOKEN/d" "$template_file"
+  local temp_file
+  temp_file=$(mktemp)
+  sed "/$TRAILER_TOKEN/d" "$template_file" > "$temp_file"
+  mv "$temp_file" "$template_file"
 }
 
 print_trailers() {
