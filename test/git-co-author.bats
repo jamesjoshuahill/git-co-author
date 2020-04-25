@@ -125,7 +125,6 @@ Another-token: another value" > "$template_file"
 
   run git-co-author bb
   [ $status -eq 0 ]
-  echo "$output"
   [ "$output" = "Co-authored-by: Bob Book <bob.book@example.com>" ]
   run cat "$template_file"
   [ $status -eq 0 ]
