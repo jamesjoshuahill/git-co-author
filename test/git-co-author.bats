@@ -64,6 +64,28 @@ Co-authored-by: Bob Book <bob.book@example.com>" ]
   [ "${lines[0]}" = "Easily add 'Co-authored-by' trailers to the commit template." ]
 }
 
+@test "--clear option succeeds when there are no Co-authored-by trailers" {
+  run git-co-author --clear
+  [ $status -eq 0 ]
+  [ "$output" = "" ]
+}
+
+@test "--clear option at end of arguments succeeds" {
+  run git-co-author aa --clear
+  [ $status -eq 0 ]
+  [ "$output" = "" ]
+  run grep "Co-authored-by" "$template_file"
+  [ $status -eq 1 ]
+}
+
+@test "--clear option amongst arguments succeeds" {
+  run git-co-author aa --clear bb
+  [ $status -eq 0 ]
+  [ "$output" = "" ]
+  run grep "Co-authored-by" "$template_file"
+  [ $status -eq 1 ]
+}
+
 @test "--clear option removes all Co-authored-by trailers" {
   echo "
 
