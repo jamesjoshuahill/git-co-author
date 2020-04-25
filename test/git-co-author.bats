@@ -52,6 +52,18 @@ Co-authored-by: Bob Book <bob.book@example.com>" ]
   [ "${lines[0]}" = "Easily add 'Co-authored-by' trailers to the commit template." ]
 }
 
+@test "--help option at end of arguments prints usage" {
+  run git-co-author aa bb --help
+  [ $status -eq 1 ]
+  [ "${lines[0]}" = "Easily add 'Co-authored-by' trailers to the commit template." ]
+}
+
+@test "--help option amongst arguments prints usage" {
+  run git-co-author aa --help bb
+  [ $status -eq 1 ]
+  [ "${lines[0]}" = "Easily add 'Co-authored-by' trailers to the commit template." ]
+}
+
 @test "--clear option removes all Co-authored-by trailers" {
   echo "
 
