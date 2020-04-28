@@ -185,13 +185,13 @@ Another-token: another value
 Co-authored-by: Bob Book <bob.book@example.com>" ]
 }
 
-@test "prints error when adding an unknown co-author" {
+@test "adding an unknown co-author prints error" {
   run git-co-author ee
   [ $status -eq 1 ]
   [ "${lines[0]}" = "co-author 'ee' is not configured" ]
 }
 
-@test "does not modify commit template when adding an unknown co-author" {
+@test "adding an unknown co-author does not modify commit template" {
   echo "Some text
 
 Co-authored-by: Ann Author <ann.author@example.com>" > "$template_file"
@@ -205,7 +205,13 @@ Co-authored-by: Ann Author <ann.author@example.com>" > "$template_file"
 Co-authored-by: Ann Author <ann.author@example.com>" ]
 }
 
-@test "add co-author prints error when commit template is blank" {
+@test "adding an invalid co-author prints error" {
+  run git-co-author 1
+  [ $status -eq 1 ]
+  [ "${lines[0]}" = "co-author '1' is not configured" ]
+}
+
+@test "adding co-author when commit template is blank prints error" {
   git config --local commit.template ""
 
   run git-co-author aa
