@@ -40,6 +40,22 @@ Co-authored-by: Bob Book <bob.book@example.com>" > "$template_file"
 Co-authored-by: Bob Book <bob.book@example.com>" ]
 }
 
+@test "no arguments prints nothing when there is no commit template" {
+  rm "$template_file"
+
+  run git-co-author
+  [ $status -eq 0 ]
+  [ "$output" = "" ]
+}
+
+@test "no arugments prints error when commit template is blank" {
+  git config --local commit.template ""
+
+  run git-co-author
+  [ $status -eq 1 ]
+  [ "${lines[0]}" = "commit template is not configured" ]
+}
+
 @test "--help option prints usage" {
   run git-co-author --help
   [ $status -eq 1 ]
