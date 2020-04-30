@@ -68,6 +68,26 @@ Co-authored-by: Bob Book <bob.book@example.com>" ]
   [ "${lines[0]}" = "Easily add 'Co-authored-by' trailers to the commit template." ]
 }
 
+@test "--help option does not modify commit template" {
+  echo "Some text
+
+Co-authored-by: Ann Author <ann.author@example.com>
+Some-token: some value
+Co-authored-by: Bob Book <bob.book@example.com>
+Another-token: another value" > "$template_file"
+
+  run git-co-author --help
+  [ $status -eq 0 ]
+  run cat "$template_file"
+  [ $status -eq 0 ]
+  [ "$output" = "Some text
+
+Co-authored-by: Ann Author <ann.author@example.com>
+Some-token: some value
+Co-authored-by: Bob Book <bob.book@example.com>
+Another-token: another value" ]
+}
+
 @test "--help option at end of arguments prints usage" {
   run git-co-author aa bb --help
   [ $status -eq 0 ]
