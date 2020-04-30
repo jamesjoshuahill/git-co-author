@@ -32,7 +32,8 @@ help_option() {
   do
     if [[ $arg = "--help" ]] || [[ $arg = "-h" ]]
     then
-      abort "$USAGE"
+      echo "$USAGE"
+      exit 0
     fi
   done
 }

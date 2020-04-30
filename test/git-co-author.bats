@@ -48,7 +48,7 @@ Co-authored-by: Bob Book <bob.book@example.com>" ]
   [ "$output" = "" ]
 }
 
-@test "no arugments prints error when commit template is blank" {
+@test "no arguments prints error when commit template is blank" {
   git config --local commit.template ""
 
   run git-co-author
@@ -58,25 +58,33 @@ Co-authored-by: Bob Book <bob.book@example.com>" ]
 
 @test "--help option prints usage" {
   run git-co-author --help
-  [ $status -eq 1 ]
+  [ $status -eq 0 ]
   [ "${lines[0]}" = "Easily add 'Co-authored-by' trailers to the commit template." ]
 }
 
 @test "-h option prints usage" {
   run git-co-author -h
-  [ $status -eq 1 ]
+  [ $status -eq 0 ]
   [ "${lines[0]}" = "Easily add 'Co-authored-by' trailers to the commit template." ]
 }
 
 @test "--help option at end of arguments prints usage" {
   run git-co-author aa bb --help
-  [ $status -eq 1 ]
+  [ $status -eq 0 ]
   [ "${lines[0]}" = "Easily add 'Co-authored-by' trailers to the commit template." ]
 }
 
 @test "--help option amongst arguments prints usage" {
   run git-co-author aa --help bb
-  [ $status -eq 1 ]
+  [ $status -eq 0 ]
+  [ "${lines[0]}" = "Easily add 'Co-authored-by' trailers to the commit template." ]
+}
+
+@test "--help option prints usage when commit template is blank" {
+  git config --local commit.template ""
+
+  run git-co-author --help
+  [ $status -eq 0 ]
   [ "${lines[0]}" = "Easily add 'Co-authored-by' trailers to the commit template." ]
 }
 
