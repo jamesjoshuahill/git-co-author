@@ -5,6 +5,7 @@ setup() {
 
   test_dir="$BATS_TMPDIR/$BATS_TEST_NAME"
   template_file="$test_dir/.git-template"
+  template_file_in_home="$HOME/test-git-co-author"
 
   rm -rf "$test_dir"
   mkdir -p "$test_dir"
@@ -14,11 +15,14 @@ setup() {
   git config --local commit.template "$template_file"
   git config --local co-authors.aa 'Ann Author <ann.author@example.com>'
   git config --local co-authors.bb 'Bob Book <bob.book@example.com>'
+
   touch "$template_file"
+  touch "$template_file_in_home"
 }
 
 teardown() {
   rm -rf "$test_dir"
+  rm "$template_file_in_home"
 }
 
 @test "no arguments prints nothing when there are no co-authors" {
@@ -245,4 +249,17 @@ Co-authored-by: Ann Author <ann.author@example.com>" ]
   run git-co-author aa
   [ $status -eq 1 ]
   [ "${lines[0]}" = "commit template is not configured" ]
+}
+
+@test "adding a co-author when the commit template includes a ~" {
+  # shellcheck disable=SC2088
+  git config --local commit.template '~/test-git-co-author'
+
+  run git-co-author aa
+  [ $status -eq 0 ]
+  [ "$output" = "Co-authored-by: Ann Author <ann.author@example.com>" ]
+  run cat "$template_file_in_home"
+  [ $status -eq 0 ]
+  [ "$output" = "
+Co-authored-by: Ann Author <ann.author@example.com>" ]
 }
