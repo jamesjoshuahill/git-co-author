@@ -9,6 +9,7 @@ git co-author initials...
 This command enables pairs and mobs of programmers to attribute commits to all the authors. For convenience, co-authors are added using their initials.
 
 GitHub has first-class support for `Co-authored-by` trailers and recognises the author and co-authors of commits. For more information on co-authoring commits, see:
+
 - [Git Together By Co-Authoring Commits](https://github.community/t5/Support-Protips/Git-Together-By-Co-Authoring-Commits/ba-p/27480)
 - [Creating a commit with multiple authors](https://help.github.com/en/github/committing-changes-to-your-project/creating-a-commit-with-multiple-authors)
 
@@ -20,16 +21,16 @@ Install the command:
 install git-co-author /usr/local/bin/
 ```
 
-Configure the commit template path:
+Configure the commit template path, for example:
 
 ```bash
-git config --global commit.template '~/.git-template'
+git config --global commit.template '~/.git-commit-template'
 ```
 
 Ensure there is a commit template file:
 
 ```bash
-touch '~/.git-template'
+touch '~/.git-commit-template'
 ```
 
 ## Configure co-authors
@@ -44,6 +45,7 @@ git config --global co-authors.bb 'Bob Book <bob.book@example.com>'
 You must use an email address associated with the co-author's GitHub account.
 
 **Tip:** You can help a co-author find their preferred email address by sharing this information:
+
 - To find your GitHub-provided `no-reply` email, navigate to your email settings page under "Keep my email address private."
 - To find the email you used to configure Git on your computer, run `git config user.email` on the command line.
 

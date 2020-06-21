@@ -4,8 +4,8 @@ setup() {
   PATH="$BATS_TEST_DIRNAME/..:$PATH"
 
   test_dir="$BATS_TMPDIR/$BATS_TEST_NAME"
-  template_file="$test_dir/.git-template"
-  template_file_in_home="$HOME/test-git-co-author"
+  template_file="$test_dir/test-commit-template"
+  template_file_in_home="$HOME/test-commit-template"
 
   rm -rf "$test_dir"
   mkdir -p "$test_dir"
@@ -253,7 +253,7 @@ Co-authored-by: Ann Author <ann.author@example.com>" ]
 
 @test "adding a co-author when the commit template includes a ~" {
   # shellcheck disable=SC2088
-  git config --local commit.template '~/test-git-co-author'
+  git config --local commit.template '~/test-commit-template'
 
   run git-co-author aa
   [ $status -eq 0 ]
