@@ -140,8 +140,8 @@ print_configured_authors() {
 Example:
   git config --global co-authors.aa 'Ann Author <ann.author@example.com>'"
   else
-    git config --get-regexp 'co-authors.*' |
-      sed -E "s/co-authors.([a-z0-9-]+)/\1 |/" |
+    { echo "INITIALS|AUTHOR" & git config --get-regexp 'co-authors.*'; } |
+      sed -E "s/co-authors.([a-z0-9-]+)[[:space:]]/\1|/" |
       column -t -s"|" |
       sort
   fi

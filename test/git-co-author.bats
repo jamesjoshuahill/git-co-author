@@ -187,11 +187,11 @@ Another-token: another value" ]
 
   run git-co-author --list
   [ $status -eq 0 ]
-  echo "$output" >&2
-  [[ $output == *"aa      Ann Author <ann.author@example.com>
-ab      Anna Book <anna.book@example.com>
-bb      Bob Book <bob.book@example.com>
-bb-2    Bobby Book <bobby.book@example.com>"* ]]
+  [ "$output" = "INITIALS  AUTHOR
+aa        Ann Author <ann.author@example.com>
+ab        Anna Book <anna.book@example.com>
+bb        Bob Book <bob.book@example.com>
+bb-2      Bobby Book <bobby.book@example.com>" ]
 }
 
 @test "--list option lists authors in config when there are none" {
