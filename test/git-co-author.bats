@@ -274,3 +274,12 @@ Co-authored-by: Ann Author <ann.author@example.com>" ]
   [[ $output == *"bb Bob Book <bob.book@example.com>"* ]]
   [[ $output != *"co-authors.bb"* ]]
 }
+
+@test "listing authors in config when there are none" {
+  git config --local --unset co-authors.aa
+  git config --local --unset co-authors.bb
+
+  run git-co-author --list
+  [ $status -eq 0 ]
+  [ "${lines[0]}" = "No authors in config." ]
+}
