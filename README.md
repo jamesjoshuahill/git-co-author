@@ -11,7 +11,7 @@ Usage:
   git co-author --help          Show help
 ```
 
-This command enables pairs and mobs of programmers to attribute commits to all the authors. For convenience, co-authors are added using their initials.
+This command enables pairs and mobs of programmers to attribute commits to all the authors. For convenience, co-authors are added using their initials. Their names and email addresses are stored in git config.
 
 GitHub has first-class support for `Co-authored-by` trailers and recognises the author and co-authors of commits. For more information on co-authoring commits, see:
 
@@ -81,6 +81,18 @@ $ git commit
 ```
 
 If the commit message is given using `git commit -m "Message"` the commit template is not used, so `Co-authored-by` trailers may be missing from the commit.
+
+List authors in config:
+
+```bash
+$ git co-author --list
+Authors in config:
+  aa Ann Author <ann.author@example.com>
+  bb Bob Book <bob.book@example.com>
+
+Add:     git config --global co-authors.aa 'Ann Author <ann.author@example.com>'
+Remove:  git config --global --unset co-authors.aa
+```
 
 ## Test
 
