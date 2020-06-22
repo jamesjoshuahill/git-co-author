@@ -18,6 +18,8 @@ setup() {
   git config --local commit.template "$template_file"
   git config --local co-authors.aa 'Ann Author <ann.author@example.com>'
   git config --local co-authors.bb 'Bob Book <bob.book@example.com>'
+  git config --local --unset co-authors.ab || true
+  git config --local --unset co-authors.bb-2 || true
 
   touch "$template_file"
   touch "$template_file_in_home"
@@ -179,6 +181,28 @@ Another-token: another value" ]
   [ "${lines[0]}" = "commit template is not configured" ]
 }
 
+@test "--list option lists authors in config when there are some" {
+  git config --local co-authors.ab 'Anna Book <anna.book@example.com>'
+  git config --local co-authors.bb-2 'Bobby Book <bobby.book@example.com>'
+
+  run git-co-author --list
+  [ $status -eq 0 ]
+  echo "$output" >&2
+  [[ $output == *"aa      Ann Author <ann.author@example.com>
+ab      Anna Book <anna.book@example.com>
+bb      Bob Book <bob.book@example.com>
+bb-2    Bobby Book <bobby.book@example.com>"* ]]
+}
+
+@test "--list option lists authors in config when there are none" {
+  git config --local --unset co-authors.aa
+  git config --local --unset co-authors.bb
+
+  run git-co-author --list
+  [ $status -eq 0 ]
+  [ "${lines[0]}" = "No authors in config." ]
+}
+
 @test "adds a co-author" {
   run git-co-author aa
   [ $status -eq 0 ]
@@ -265,21 +289,4 @@ Co-authored-by: Ann Author <ann.author@example.com>" ]
   [ $status -eq 0 ]
   [ "$output" = "
 Co-authored-by: Ann Author <ann.author@example.com>" ]
-}
-
-@test "listing authors in config when there are some" {
-  run git-co-author --list
-  [ $status -eq 0 ]
-  [[ $output == *"aa Ann Author <ann.author@example.com>"* ]]
-  [[ $output == *"bb Bob Book <bob.book@example.com>"* ]]
-  [[ $output != *"co-authors.bb"* ]]
-}
-
-@test "listing authors in config when there are none" {
-  git config --local --unset co-authors.aa
-  git config --local --unset co-authors.bb
-
-  run git-co-author --list
-  [ $status -eq 0 ]
-  [ "${lines[0]}" = "No authors in config." ]
 }

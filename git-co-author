@@ -135,15 +135,16 @@ print_trailers() {
 print_configured_authors() {
   if ! git config --get-regexp "co-authors.*" &> /dev/null
   then
-    echo "No authors in config."
-  else
-    echo "Authors in config:"
-    git config --get-regexp 'co-authors.*' | sed -e "s/^co-authors./  /"
-  fi
+    echo "No authors in config.
 
-  echo -e "
-Add:     git config --global co-authors.aa 'Ann Author <ann.author@example.com>'
-Remove:  git config --global --unset co-authors.aa"
+Example:
+  git config --global co-authors.aa 'Ann Author <ann.author@example.com>'"
+  else
+    git config --get-regexp 'co-authors.*' |
+      sed -E "s/co-authors.([a-z0-9-]+)/\1 |/" |
+      column -t -s"|" |
+      sort
+  fi
 }
 
 main "$@"

@@ -86,12 +86,8 @@ List authors in config:
 
 ```bash
 $ git co-author --list
-Authors in config:
-  aa Ann Author <ann.author@example.com>
-  bb Bob Book <bob.book@example.com>
-
-Add:     git config --global co-authors.aa 'Ann Author <ann.author@example.com>'
-Remove:  git config --global --unset co-authors.aa
+aa   Ann Author <ann.author@example.com>
+bb   Bob Book <bob.book@example.com>
 ```
 
 ## Test
