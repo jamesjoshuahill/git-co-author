@@ -9,12 +9,14 @@ Usage:
   git co-author                 Show co-author trailers
   git co-author initials...     Update co-author trailers
   git co-author --clear         Remove all co-author trailers
+  git co-author --list          List authors in config
   git co-author --help          Show help"
 
 main() {
   show_trailers "$@"
   help_option "$@"
   clear_option "$@"
+  list_option "$@"
   update_trailers "$@"
 }
 
@@ -45,6 +47,17 @@ clear_option() {
     then
       ensure_template_file
       clear_trailers
+      exit 0
+    fi
+  done
+}
+
+list_option() {
+  for arg in "$@"
+  do
+    if [[ $arg = "--list" ]]
+    then
+      print_configured_authors
       exit 0
     fi
   done
@@ -117,6 +130,14 @@ clear_trailers() {
 
 print_trailers() {
   sed -n "/$TRAILER_TOKEN/p" "$template_file"
+}
+
+print_configured_authors() {
+  echo "Authors in config:"
+  git config --global --get-regexp 'co-authors.*' | sed -e "s/^co-authors./  /"
+  echo -e "
+Add:     git config --global co-authors.aa 'Ann Author <ann.author@example.com>'
+Remove:  git config --global --unset co-authors.aa"
 }
 
 main "$@"

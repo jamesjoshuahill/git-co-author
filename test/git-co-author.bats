@@ -10,7 +10,7 @@ setup() {
   mkdir -p "$test_dir"
   cd "$test_dir" || exit 1
 
-  if ! git status
+  if ! git status &> /dev/null
   then
     git init
   fi
@@ -265,4 +265,12 @@ Co-authored-by: Ann Author <ann.author@example.com>" ]
   [ $status -eq 0 ]
   [ "$output" = "
 Co-authored-by: Ann Author <ann.author@example.com>" ]
+}
+
+@test "listing authors in config when there are some" {
+  run git-co-author --list
+  [ $status -eq 0 ]
+  [[ $output == *"aa Ann Author <ann.author@example.com>"* ]]
+  [[ $output == *"bb Bob Book <bob.book@example.com>"* ]]
+  [[ $output != *"co-authors.bb"* ]]
 }
