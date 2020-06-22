@@ -7,6 +7,7 @@ Usage:
   git co-author                 Show co-author trailers
   git co-author initials...     Update co-author trailers
   git co-author --clear         Remove all co-author trailers
+  git co-author --list          List authors in config
   git co-author --help          Show help
 ```
 
