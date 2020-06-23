@@ -187,11 +187,10 @@ Another-token: another value" ]
 
   run git-co-author --authors
   [ $status -eq 0 ]
-  [ "$output" = "INITIALS  AUTHOR
-aa        Ann Author <ann.author@example.com>
-ab        Anna Book <anna.book@example.com>
-bb        Bob Book <bob.book@example.com>
-bb-2      Bobby Book <bobby.book@example.com>" ]
+  [ "$output" = "aa    'Ann Author <ann.author@example.com>'
+ab    'Anna Book <anna.book@example.com>'
+bb    'Bob Book <bob.book@example.com>'
+bb-2  'Bobby Book <bobby.book@example.com>'" ]
 }
 
 @test "--authors option prints message when there are none" {

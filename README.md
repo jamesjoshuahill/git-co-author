@@ -86,9 +86,8 @@ List authors in config:
 
 ```bash
 $ git co-author --authors
-INITIALS  AUTHOR
-aa        Ann Author <ann.author@example.com>
-bb        Bob Book <bob.book@example.com>
+aa  'Ann Author <ann.author@example.com>'
+bb  'Bob Book <bob.book@example.com>'
 ```
 
 ## Test
