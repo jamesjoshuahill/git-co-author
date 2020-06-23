@@ -56,6 +56,8 @@ You must use an email address associated with the co-author's GitHub account.
 
 ## Usage
 
+**:warning: The message option `git commit -m/--message <message>` does not use the commit template.**
+
 Pair with a co-author:
 
 ```bash
@@ -79,8 +81,6 @@ Solo without co-authors:
 $ git co-author --clear
 $ git commit
 ```
-
-If the commit message is given using `git commit -m "Message"` the commit template is not used, so `Co-authored-by` trailers may be missing from the commit.
 
 List authors in config:
 
