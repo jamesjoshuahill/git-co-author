@@ -181,11 +181,11 @@ Another-token: another value" ]
   [ "${lines[0]}" = "commit template is not configured" ]
 }
 
-@test "--list option lists authors in config when there are some" {
+@test "--authors option prints authors in config" {
   git config --local co-authors.ab 'Anna Book <anna.book@example.com>'
   git config --local co-authors.bb-2 'Bobby Book <bobby.book@example.com>'
 
-  run git-co-author --list
+  run git-co-author --authors
   [ $status -eq 0 ]
   [ "$output" = "INITIALS  AUTHOR
 aa        Ann Author <ann.author@example.com>
@@ -194,11 +194,11 @@ bb        Bob Book <bob.book@example.com>
 bb-2      Bobby Book <bobby.book@example.com>" ]
 }
 
-@test "--list option lists authors in config when there are none" {
+@test "--authors option prints message when there are none" {
   git config --local --unset co-authors.aa
   git config --local --unset co-authors.bb
 
-  run git-co-author --list
+  run git-co-author --authors
   [ $status -eq 0 ]
   [ "${lines[0]}" = "No authors in config." ]
 }
