@@ -10,7 +10,7 @@ Usage:
   git co-author initials...  Update co-author trailers
   git co-author --clear      Remove all co-author trailers
   git co-author --authors    List configured authors
-  git co-author --help       Show help"
+  git co-author -h/--help    Show help"
 
 main() {
   show_trailers "$@"
