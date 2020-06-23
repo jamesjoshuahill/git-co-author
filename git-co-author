@@ -81,7 +81,7 @@ ensure_template_file() {
   must_have_config "commit.template" "commit template is not configured
 
 Example:
-  git config --global commit.template '~/.git-template'"
+  git config --global commit.template '~/.git-commit-template'"
 
   template_file=$(git config commit.template)
   template_file="${template_file/#\~/$HOME}"  # Replace '~' with $HOME
