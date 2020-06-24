@@ -1,6 +1,6 @@
 # git-co-author
 
-Easily add `Co-authored-by` trailers to the commit template.
+Easily use `Co-authored-by` trailers to co-author commits.
 
 ```bash
 Usage:

@@ -68,13 +68,14 @@ Co-authored-by: Bob Book <bob.book@example.com>" ]
 @test "--help option prints usage" {
   run git-co-author --help
   [ $status -eq 0 ]
-  [ "${lines[0]}" = "Easily add 'Co-authored-by' trailers to the commit template." ]
+  echo "${lines[1]}"
+  [ "${lines[1]}" = "Usage:" ]
 }
 
 @test "-h option prints usage" {
   run git-co-author -h
   [ $status -eq 0 ]
-  [ "${lines[0]}" = "Easily add 'Co-authored-by' trailers to the commit template." ]
+  [ "${lines[1]}" = "Usage:" ]
 }
 
 @test "--help option does not modify commit template" {
@@ -100,13 +101,13 @@ Another-token: another value" ]
 @test "--help option at end of arguments prints usage" {
   run git-co-author aa bb --help
   [ $status -eq 0 ]
-  [ "${lines[0]}" = "Easily add 'Co-authored-by' trailers to the commit template." ]
+  [ "${lines[1]}" = "Usage:" ]
 }
 
 @test "--help option amongst arguments prints usage" {
   run git-co-author aa --help bb
   [ $status -eq 0 ]
-  [ "${lines[0]}" = "Easily add 'Co-authored-by' trailers to the commit template." ]
+  [ "${lines[1]}" = "Usage:" ]
 }
 
 @test "--help option prints usage when commit template is blank" {
@@ -114,7 +115,7 @@ Another-token: another value" ]
 
   run git-co-author --help
   [ $status -eq 0 ]
-  [ "${lines[0]}" = "Easily add 'Co-authored-by' trailers to the commit template." ]
+  [ "${lines[1]}" = "Usage:" ]
 }
 
 @test "--clear option succeeds when there are no Co-authored-by trailers" {
