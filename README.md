@@ -127,6 +127,15 @@ Run the tests in a container:
 docker run git-co-author-test
 ```
 
+For active development you can mount the host directory into the test container,
+so that you can edit the code locally and run the tests in the container
+repeatedly:
+
+```bash
+$ docker run --volume "$PWD:/git-co-author" -it git-co-author-test bash
+bash-5.0# ./test/git-co-author.bats
+```
+
 ## Notes
 
 - The command does not modify Git config.

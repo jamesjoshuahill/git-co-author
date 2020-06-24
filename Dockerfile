@@ -9,4 +9,4 @@ WORKDIR /git-co-author
 
 COPY . /git-co-author
 
-CMD [ "bats", "./test/git-co-author.bats" ]
+CMD [ "./test/git-co-author.bats" ]
