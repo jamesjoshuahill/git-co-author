@@ -3,7 +3,7 @@
 set -euo pipefail
 
 TRAILER_TOKEN="Co-authored-by"
-USAGE="Easily use 'Co-authored-by' trailers to co-author commits.
+USAGE="Easily use 'Co-authored-by' trailers in the commit template.
 
 Usage:
   git co-author                Show co-author trailers
