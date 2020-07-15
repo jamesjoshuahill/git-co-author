@@ -12,60 +12,55 @@ Usage:
   git co-author --authors      List configured authors"
 
 main() {
-  show_trailers "$@"
-  help_option "$@"
-  clear_option "$@"
-  authors_option "$@"
+  if [[ $# -eq 0 ]]
+  then
+    show_trailers
+  fi
+
+  for arg in "$@"
+  do
+    case "$arg" in
+    --help|-h)
+      print_usage
+      ;;
+    --clear)
+      clear_trailers
+      ;;
+    --authors)
+      list_authors
+      ;;
+    esac
+  done
+
   update_trailers "$@"
 }
 
 show_trailers() {
-  if [[ $# -eq 0 ]]
-  then
-    ensure_template_file
-    print_trailers
-    exit 0
-  fi
+  ensure_template_file
+  print_trailers
+  exit 0
 }
 
-help_option() {
-  for arg in "$@"
-  do
-    if [[ $arg = "--help" ]] || [[ $arg = "-h" ]]
-    then
-      echo "$USAGE"
-      exit 0
-    fi
-  done
+print_usage() {
+  echo "$USAGE"
+  exit 0
 }
 
-clear_option() {
-  for arg in "$@"
-  do
-    if [[ $arg = "--clear" ]]
-    then
-      ensure_template_file
-      clear_trailers
-      exit 0
-    fi
-  done
+clear_trailers() {
+  ensure_template_file
+  remove_trailers
+  exit 0
 }
 
-authors_option() {
-  for arg in "$@"
-  do
-    if [[ $arg = "--authors" ]]
-    then
-      print_configured_authors
-      exit 0
-    fi
-  done
+list_authors() {
+  print_configured_authors
+  exit 0
 }
 
 update_trailers() {
   ensure_template_file
   must_have_initials "$@"
-  clear_trailers
+  remove_trailers
   add_trailers "$@"
   print_trailers
   exit 0
@@ -120,7 +115,7 @@ add_trailers() {
   done
 }
 
-clear_trailers() {
+remove_trailers() {
   local temp_file
   temp_file=$(mktemp)
   sed "/$TRAILER_TOKEN/d" "$template_file" > "$temp_file"
