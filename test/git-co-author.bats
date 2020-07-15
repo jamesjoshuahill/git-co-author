@@ -65,6 +65,14 @@ Co-authored-by: Bob Book <bob.book@example.com>" ]
   [ "${lines[0]}" = "commit template is not configured" ]
 }
 
+@test "no arguments prints error when commit template is not configured" {
+  git config --local --unset commit.template
+
+  run git-co-author
+  [ $status -eq 1 ]
+  [ "${lines[0]}" = "commit template is not configured" ]
+}
+
 @test "--help option prints usage" {
   run git-co-author --help
   [ $status -eq 0 ]
@@ -112,6 +120,14 @@ Another-token: another value" ]
 
 @test "--help option prints usage when commit template is blank" {
   git config --local commit.template ""
+
+  run git-co-author --help
+  [ $status -eq 0 ]
+  [ "${lines[1]}" = "Usage:" ]
+}
+
+@test "--help option prints usage when commit template is not configured" {
+  git config --local --unset commit.template
 
   run git-co-author --help
   [ $status -eq 0 ]
@@ -176,6 +192,14 @@ Another-token: another value" ]
 
 @test "--clear option prints error when commit template is blank" {
   git config --local commit.template ""
+
+  run git-co-author --clear
+  [ $status -eq 1 ]
+  [ "${lines[0]}" = "commit template is not configured" ]
+}
+
+@test "--clear option prints error when commit template not configured" {
+  git config --local --unset commit.template
 
   run git-co-author --clear
   [ $status -eq 1 ]
@@ -272,6 +296,14 @@ Co-authored-by: Ann Author <ann.author@example.com>" ]
 
 @test "adding co-author when commit template is blank prints error" {
   git config --local commit.template ""
+
+  run git-co-author aa
+  [ $status -eq 1 ]
+  [ "${lines[0]}" = "commit template is not configured" ]
+}
+
+@test "adding co-author when commit template is not configured prints error" {
+  git config --local --unset commit.template
 
   run git-co-author aa
   [ $status -eq 1 ]

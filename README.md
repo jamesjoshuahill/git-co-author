@@ -93,19 +93,8 @@ bb  'Bob Book <bob.book@example.com>'
 
 The command is tested using the [Bats](https://github.com/sstephenson/bats) testing framework for Bash.
 
-### Locally
-
-Install Bats:
-
-```bash
-brew install bats
-```
-
-Run tests:
-
-```bash
-./test/git-co-author.bats
-```
+The tests expect no global git config, so they are run in a container to isolate
+them.
 
 ### Docker
 
