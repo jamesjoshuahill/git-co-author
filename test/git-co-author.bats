@@ -134,42 +134,26 @@ Another-token: another value" ]
   [ "${lines[1]}" = "Usage:" ]
 }
 
-@test "--clear option succeeds when there are no Co-authored-by trailers" {
-  run git-co-author --clear
+@test "clear subcommand succeeds when there are no Co-authored-by trailers" {
+  run git-co-author clear
   [ $status -eq 0 ]
   [ "$output" = "" ]
 }
 
-@test "--clear option at end of arguments succeeds" {
-  run git-co-author aa --clear
-  [ $status -eq 0 ]
-  [ "$output" = "" ]
-  run grep "Co-authored-by" "$template_file"
-  [ $status -eq 1 ]
-}
-
-@test "--clear option amongst arguments succeeds" {
-  run git-co-author aa --clear bb
-  [ $status -eq 0 ]
-  [ "$output" = "" ]
-  run grep "Co-authored-by" "$template_file"
-  [ $status -eq 1 ]
-}
-
-@test "--clear option removes all Co-authored-by trailers" {
+@test "clear subcommand removes all Co-authored-by trailers" {
   echo "
 
 Co-authored-by: Ann Author <ann.author@example.com>
 Co-authored-by: Bob Book <bob.book@example.com>" > "$template_file"
 
-  run git-co-author --clear
+  run git-co-author clear
   [ $status -eq 0 ]
   [ "$output" = "" ]
   run grep "Co-authored-by" "$template_file"
   [ $status -eq 1 ]
 }
 
-@test "--clear option does not modify rest of commit template" {
+@test "clear subcommand does not modify rest of commit template" {
   echo "Some text
 
 Co-authored-by: Ann Author <ann.author@example.com>
@@ -177,7 +161,7 @@ Some-token: some value
 Co-authored-by: Bob Book <bob.book@example.com>
 Another-token: another value" > "$template_file"
 
-  run git-co-author --clear
+  run git-co-author clear
   [ $status -eq 0 ]
   [ "$output" = "" ]
   run grep "Co-authored-by" "$template_file"
@@ -190,27 +174,27 @@ Some-token: some value
 Another-token: another value" ]
 }
 
-@test "--clear option prints error when commit template is blank" {
+@test "clear subcommand prints error when commit template is blank" {
   git config --local commit.template ""
 
-  run git-co-author --clear
+  run git-co-author clear
   [ $status -eq 1 ]
   [ "${lines[0]}" = "commit template is not configured" ]
 }
 
-@test "--clear option prints error when commit template not configured" {
+@test "clear subcommand prints error when commit template not configured" {
   git config --local --unset commit.template
 
-  run git-co-author --clear
+  run git-co-author clear
   [ $status -eq 1 ]
   [ "${lines[0]}" = "commit template is not configured" ]
 }
 
-@test "--authors option prints authors in config" {
+@test "authors subcommand prints authors in config" {
   git config --local co-authors.ab 'Anna Book <anna.book@example.com>'
   git config --local co-authors.bb-2 'Bobby Book <bobby.book@example.com>'
 
-  run git-co-author --authors
+  run git-co-author authors
   [ $status -eq 0 ]
   [ "$output" = "aa    'Ann Author <ann.author@example.com>'
 ab    'Anna Book <anna.book@example.com>'
@@ -218,11 +202,11 @@ bb    'Bob Book <bob.book@example.com>'
 bb-2  'Bobby Book <bobby.book@example.com>'" ]
 }
 
-@test "--authors option prints message when there are none" {
+@test "authors subcommand prints message when there are none" {
   git config --local --unset co-authors.aa
   git config --local --unset co-authors.bb
 
-  run git-co-author --authors
+  run git-co-author authors
   [ $status -eq 0 ]
   [ "${lines[0]}" = "No authors in config." ]
 }

@@ -6,8 +6,8 @@ Easily use 'Co-authored-by' trailers in the commit template.
 Usage:
   git co-author                Show co-author trailers
   git co-author <initials>...  Update co-author trailers
-  git co-author --clear        Remove all co-author trailers
-  git co-author --authors      List configured authors
+  git co-author clear          Remove all co-author trailers
+  git co-author authors        List configured authors
 ```
 
 This command enables pairs and mobs of programmers to attribute commits to all the authors. For convenience, co-authors are added using their initials. Their names and email addresses are stored in git config.
@@ -77,14 +77,14 @@ $ git commit
 Solo without co-authors:
 
 ```bash
-$ git co-author --clear
+$ git co-author clear
 $ git commit
 ```
 
 List authors in config:
 
 ```bash
-$ git co-author --authors
+$ git co-author authors
 aa  'Ann Author <ann.author@example.com>'
 bb  'Bob Book <bob.book@example.com>'
 ```
