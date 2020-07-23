@@ -16,11 +16,10 @@ main() {
 
   for arg in "$@"
   do
-    case "$arg" in
-    --help|-h)
+    if [[ "$arg" = "-h" ]]
+    then
       print_usage
-      ;;
-    esac
+    fi
   done
 
   case "$1" in

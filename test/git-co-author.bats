@@ -73,19 +73,13 @@ Co-authored-by: Bob Book <bob.book@example.com>" ]
   [ "${lines[0]}" = "commit template is not configured" ]
 }
 
-@test "--help option prints usage" {
-  run git-co-author --help
-  [ $status -eq 0 ]
-  [[ "${lines[0]}" =~ ^usage:.* ]]
-}
-
 @test "-h option prints usage" {
   run git-co-author -h
   [ $status -eq 0 ]
   [[ "${lines[0]}" =~ ^usage:.* ]]
 }
 
-@test "--help option does not modify commit template" {
+@test "-h option does not modify commit template" {
   echo "Some text
 
 Co-authored-by: Ann Author <ann.author@example.com>
@@ -93,7 +87,7 @@ Some-token: some value
 Co-authored-by: Bob Book <bob.book@example.com>
 Another-token: another value" > "$template_file"
 
-  run git-co-author --help
+  run git-co-author -h
   [ $status -eq 0 ]
   run cat "$template_file"
   [ $status -eq 0 ]
@@ -105,36 +99,36 @@ Co-authored-by: Bob Book <bob.book@example.com>
 Another-token: another value" ]
 }
 
-@test "--help option at end of arguments prints usage" {
-  run git-co-author aa bb --help
+@test "-h option at end of arguments prints usage" {
+  run git-co-author aa bb -h
   [ $status -eq 0 ]
   [[ "${lines[0]}" =~ ^usage:.* ]]
 }
 
-@test "--help option after a subcommand prints usage" {
-  run git-co-author clear --help
+@test "-h option after a subcommand prints usage" {
+  run git-co-author clear -h
   [ $status -eq 0 ]
   [[ "${lines[0]}" =~ ^usage:.* ]]
 }
 
-@test "--help option amongst arguments prints usage" {
-  run git-co-author aa --help bb
+@test "-h option amongst arguments prints usage" {
+  run git-co-author aa -h bb
   [ $status -eq 0 ]
   [[ "${lines[0]}" =~ ^usage:.* ]]
 }
 
-@test "--help option prints usage when commit template is blank" {
+@test "-h option prints usage when commit template is blank" {
   git config --local commit.template ""
 
-  run git-co-author --help
+  run git-co-author -h
   [ $status -eq 0 ]
   [[ "${lines[0]}" =~ ^usage:.* ]]
 }
 
-@test "--help option prints usage when commit template is not configured" {
+@test "-h option prints usage when commit template is not configured" {
   git config --local --unset commit.template
 
-  run git-co-author --help
+  run git-co-author -h
   [ $status -eq 0 ]
   [[ "${lines[0]}" =~ ^usage:.* ]]
 }
