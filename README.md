@@ -2,7 +2,7 @@
 
 Easily use 'Co-authored-by' trailers in the commit template.
 
-```bash
+```text
 usage: git co-author                Show co-authors in commit template
    or: git co-author <initials>...  Update co-authors in commit template
    or: git co-author clear          Remove all co-authors from commit template
