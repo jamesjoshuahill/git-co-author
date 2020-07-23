@@ -3,13 +3,10 @@
 set -euo pipefail
 
 readonly TRAILER_TOKEN="Co-authored-by"
-readonly USAGE="Easily use 'Co-authored-by' trailers in the commit template.
-
-Usage:
-  git co-author                Show co-author trailers
-  git co-author <initials>...  Update co-author trailers
-  git co-author clear          Remove all co-author trailers
-  git co-author authors        List configured authors"
+readonly USAGE="usage: git co-author                Show co-authors in commit template
+   or: git co-author <initials>...  Update co-authors in commit template
+   or: git co-author clear          Remove all co-authors from commit template
+   or: git co-author authors        List authors in git config"
 
 main() {
   if [[ $# -eq 0 ]]

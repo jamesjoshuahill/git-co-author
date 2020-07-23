@@ -76,14 +76,13 @@ Co-authored-by: Bob Book <bob.book@example.com>" ]
 @test "--help option prints usage" {
   run git-co-author --help
   [ $status -eq 0 ]
-  echo "${lines[1]}"
-  [ "${lines[1]}" = "Usage:" ]
+  [[ "${lines[0]}" =~ ^usage:.* ]]
 }
 
 @test "-h option prints usage" {
   run git-co-author -h
   [ $status -eq 0 ]
-  [ "${lines[1]}" = "Usage:" ]
+  [[ "${lines[0]}" =~ ^usage:.* ]]
 }
 
 @test "--help option does not modify commit template" {
@@ -109,19 +108,19 @@ Another-token: another value" ]
 @test "--help option at end of arguments prints usage" {
   run git-co-author aa bb --help
   [ $status -eq 0 ]
-  [ "${lines[1]}" = "Usage:" ]
+  [[ "${lines[0]}" =~ ^usage:.* ]]
 }
 
 @test "--help option after a subcommand prints usage" {
   run git-co-author clear --help
   [ $status -eq 0 ]
-  [ "${lines[1]}" = "Usage:" ]
+  [[ "${lines[0]}" =~ ^usage:.* ]]
 }
 
 @test "--help option amongst arguments prints usage" {
   run git-co-author aa --help bb
   [ $status -eq 0 ]
-  [ "${lines[1]}" = "Usage:" ]
+  [[ "${lines[0]}" =~ ^usage:.* ]]
 }
 
 @test "--help option prints usage when commit template is blank" {
@@ -129,7 +128,7 @@ Another-token: another value" ]
 
   run git-co-author --help
   [ $status -eq 0 ]
-  [ "${lines[1]}" = "Usage:" ]
+  [[ "${lines[0]}" =~ ^usage:.* ]]
 }
 
 @test "--help option prints usage when commit template is not configured" {
@@ -137,7 +136,7 @@ Another-token: another value" ]
 
   run git-co-author --help
   [ $status -eq 0 ]
-  [ "${lines[1]}" = "Usage:" ]
+  [[ "${lines[0]}" =~ ^usage:.* ]]
 }
 
 @test "clear subcommand succeeds when there are no Co-authored-by trailers" {
