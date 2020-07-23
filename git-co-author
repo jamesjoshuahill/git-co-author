@@ -23,14 +23,17 @@ main() {
     --help|-h)
       print_usage
       ;;
-    clear)
-      clear_trailers
-      ;;
-    authors)
-      list_authors
-      ;;
     esac
   done
+
+  case "$1" in
+  clear)
+    clear_trailers
+    ;;
+  authors)
+    list_authors
+    ;;
+  esac
 
   update_trailers "$@"
 }

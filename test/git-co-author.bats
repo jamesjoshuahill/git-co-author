@@ -112,6 +112,12 @@ Another-token: another value" ]
   [ "${lines[1]}" = "Usage:" ]
 }
 
+@test "--help option after a subcommand prints usage" {
+  run git-co-author clear --help
+  [ $status -eq 0 ]
+  [ "${lines[1]}" = "Usage:" ]
+}
+
 @test "--help option amongst arguments prints usage" {
   run git-co-author aa --help bb
   [ $status -eq 0 ]
@@ -256,6 +262,12 @@ Co-authored-by: Bob Book <bob.book@example.com>" ]
   run git-co-author ee
   [ $status -eq 1 ]
   [ "${lines[0]}" = "co-author 'ee' is not configured" ]
+}
+
+@test "adding a subcommand prints error" {
+  run git-co-author aa clear
+  [ $status -eq 1 ]
+  [ "${lines[0]}" = "co-author 'clear' is not configured" ]
 }
 
 @test "adding an unknown co-author does not modify commit template" {
