@@ -36,9 +36,9 @@ Ensure there is a commit template file:
 touch '~/.git-commit-template'
 ```
 
-## Configure co-authors
+## Add authors to git config
 
-Configure the name and email address of co-authors with their initials. For example 'aa' and 'bb':
+Configure the name and email address of authors with their initials. For example Ann and Bob:
 
 ```bash
 git config --global co-authors.aa 'Ann Author <ann.author@example.com>'
@@ -54,39 +54,36 @@ You must use an email address associated with the co-author's GitHub account.
 
 ## Usage
 
-**:warning: The message option `git commit -m/--message <message>` does not use the commit template.**
-
-Pair with a co-author:
+Pair with Ann:
 
 ```bash
 $ git co-author aa
 Co-authored-by: Ann Author <ann.author@example.com>
-$ git commit
 ```
 
-Mob with two or more co-authors:
+Mob with Ann and Bob:
 
 ```bash
 $ git co-author aa bb
 Co-authored-by: Ann Author <ann.author@example.com>
 Co-authored-by: Bob Book <bob.book@example.com>
-$ git commit
 ```
 
-Solo without co-authors:
+Solo (without co-authors):
 
 ```bash
 $ git co-author clear
-$ git commit
 ```
 
-List authors in config:
+List authors in git config:
 
 ```bash
 $ git co-author authors
 aa  'Ann Author <ann.author@example.com>'
 bb  'Bob Book <bob.book@example.com>'
 ```
+
+This command expects you to commit using the commit template. If you run `git commit` with the message option `-m/--message` then the commit template is not used and any Co-authored-by trailers in the commit template won't be commited.
 
 ## Test
 
