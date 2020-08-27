@@ -51,6 +51,14 @@ git config --global co-authors.aa 'Ann Author <ann.author@example.com>'
 git config --global co-authors.bb 'Bob Book <bob.book@example.com>'
 ```
 
+The co-authors will appear in your global git config:
+
+```
+[co-authors]
+    aa = Ann Author <ann.author@example.com>
+    bb = Bob Book <bob.book@example.com>
+```
+
 You must use an email address associated with the co-author's GitHub account.
 
 **Tip:** You can help a co-author find their preferred email address by sharing this information:
