@@ -18,16 +18,10 @@ GitHub has first-class support for `Co-authored-by` trailers and recognises the 
 
 ## Install
 
-Download the command:
-
-```bash
-curl -O https://raw.githubusercontent.com/jamesjoshuahill/git-co-author/master/git-co-author
-```
-
 Install the command:
 
 ```bash
-install git-co-author /usr/local/bin/
+brew install jamesjoshuahill/tap/git-co-author
 ```
 
 Configure the commit template path, for example:
