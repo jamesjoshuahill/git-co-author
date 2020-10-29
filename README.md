@@ -33,7 +33,7 @@ git config --global commit.template '~/.git-commit-template'
 Ensure there is a commit template file:
 
 ```bash
-touch '~/.git-commit-template'
+touch ~/.git-commit-template
 ```
 
 ## Add authors to git config
