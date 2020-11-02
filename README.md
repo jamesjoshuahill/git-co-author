@@ -22,6 +22,11 @@ Install the command:
 
 ```bash
 brew install jamesjoshuahill/tap/git-co-author
+
+# or
+
+curl -O https://raw.githubusercontent.com/jamesjoshuahill/git-co-author/master/git-co-author
+install git-co-author /usr/local/bin/
 ```
 
 Configure the commit template path, for example:
