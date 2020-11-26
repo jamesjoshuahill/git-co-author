@@ -5,8 +5,9 @@ set -euo pipefail
 readonly TRAILER_TOKEN="Co-authored-by"
 readonly USAGE="usage: git co-author                Show co-authors in commit template
    or: git co-author <initials>...  Update co-authors in commit template
+   or: git co-author authors        List authors in git config
    or: git co-author clear          Remove all co-authors from commit template
-   or: git co-author authors        List authors in git config"
+   or: git co-author find           Find authors in git log"
 
 main() {
   if [[ $# -eq 0 ]]
@@ -23,11 +24,14 @@ main() {
   done
 
   case "$1" in
+  authors)
+    list_authors
+    ;;
   clear)
     clear_trailers
     ;;
-  authors)
-    list_authors
+  find)
+    find_authors
     ;;
   esac
 
@@ -53,6 +57,14 @@ clear_trailers() {
 
 list_authors() {
   print_configured_authors
+  exit 0
+}
+
+find_authors() {
+  {
+    git log --pretty="%an <%ae>";
+    git log --pretty="%(trailers:key=Co-authored-by,valueonly,only)" | awk NF;
+  } | sort | uniq
   exit 0
 }
 

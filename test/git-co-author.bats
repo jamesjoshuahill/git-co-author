@@ -9,13 +9,12 @@ setup() {
 
   mkdir -p "$test_dir"
   cd "$test_dir" || exit 1
+  rm -rf .git/
 
-  if ! git status &> /dev/null
-  then
-    git init
-  fi
-
+  git init
   git config --local commit.template "$template_file"
+  git config --local user.name 'Ann Author'
+  git config --local user.email 'ann.author@example.com'
   git config --local co-authors.aa 'Ann Author <ann.author@example.com>'
   git config --local co-authors.bb 'Bob Book <bob.book@example.com>'
   git config --local --unset co-authors.ab || true
@@ -208,6 +207,56 @@ bb-2  'Bobby Book <bobby.book@example.com>'" ]
   run git-co-author authors
   [ $status -eq 0 ]
   [ "${lines[0]}" = "No authors in config." ]
+}
+
+@test "find sumcommand prints errors when not in a git repository" {
+  rm -rf .git/
+
+  run git co-author find
+  [ $status -eq 128 ]
+  [[ "${lines[0]}" =~ ^fatal:.* ]]
+}
+
+@test "find subcommand prints error when there are no commits" {
+  run git co-author find
+  [ $status -eq 128 ]
+  [[ "${lines[0]}" =~ ^fatal:.* ]]
+}
+
+@test "find subcommand prints authors in git log" {
+  git commit --allow-empty -m'Test'
+  git commit --allow-empty -m'Test' --author="Bob Book <bob.book@example.com>"
+
+  run git co-author find
+  [ $status -eq 0 ]
+  [ "$output" = "Ann Author <ann.author@example.com>
+Bob Book <bob.book@example.com>" ]
+}
+
+@test "find subcommand prints co-authors in git log" {
+  git commit --allow-empty -m'Test
+
+Co-authored-by: Bob Book <bob.book@example.com>'
+  git commit --allow-empty -m'Test
+
+Co-authored-by: Anna Book <anna.book@example.com>'
+
+  run git co-author find
+  [ $status -eq 0 ]
+  [ "$output" = "Ann Author <ann.author@example.com>
+Anna Book <anna.book@example.com>
+Bob Book <bob.book@example.com>" ]
+}
+
+@test "find subcommand does not print other trailers in git log" {
+  git commit --allow-empty -m"Test
+
+Some-token: some value
+Another-token: another value"
+
+  run git co-author find
+  [ $status -eq 0 ]
+  [ "$output" = "Ann Author <ann.author@example.com>" ]
 }
 
 @test "adds a co-author" {

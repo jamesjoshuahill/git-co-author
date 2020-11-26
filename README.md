@@ -67,6 +67,8 @@ You must use an email address associated with the co-author's GitHub account.
 
 ## Usage
 
+This command expects you to commit using the commit template. If you run `git commit` with the message option `-m/--message` then the commit template is not used and any Co-authored-by trailers in the commit template won't be commited.
+
 Pair with Ann:
 
 ```bash
@@ -96,7 +98,13 @@ aa  'Ann Author <ann.author@example.com>'
 bb  'Bob Book <bob.book@example.com>'
 ```
 
-This command expects you to commit using the commit template. If you run `git commit` with the message option `-m/--message` then the commit template is not used and any Co-authored-by trailers in the commit template won't be commited.
+Find authors in git log:
+
+```bash
+$ git co-author find
+Ann Author <ann.author@example.com>
+Bob Book <bob.book@example.com>
+```
 
 ## Test
 
