@@ -18,13 +18,15 @@ GitHub has first-class support for `Co-authored-by` trailers and recognises the 
 
 ## Install
 
-Install the command:
+Install the command using Homebrew:
 
 ```bash
 brew install jamesjoshuahill/tap/git-co-author
+```
 
-# or
+Or manually into your `$PATH`, for example:
 
+```
 curl -O https://raw.githubusercontent.com/jamesjoshuahill/git-co-author/master/git-co-author
 install git-co-author /usr/local/bin/
 ```
