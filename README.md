@@ -7,6 +7,7 @@ usage: git co-author                Show co-authors in commit template
    or: git co-author <initials>...  Update co-authors in commit template
    or: git co-author clear          Remove all co-authors from commit template
    or: git co-author authors        List authors in git config
+   or: git co-author find           Find authors in git log
 ```
 
 This command enables pairs and mobs of programmers to attribute commits to all the authors. For convenience, co-authors are added using their initials. Their names and email addresses are stored in git config.
